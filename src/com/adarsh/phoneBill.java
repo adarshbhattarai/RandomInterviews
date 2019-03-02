@@ -1,21 +1,27 @@
 package com.adarsh;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Created by adarshbhattarai on 3/21/17.
  */
-public class Test {
+public class phoneBill {
 
-        public static void main(String [] args){
-            String timeDate="00:01:07,400-234-090\n" +
-                    "00:05:01,701-080-080\n" +
-                    "00:05:00,400-234-090";
-            int billPrice = solution(timeDate);
-            System.out.println("Total bill is: "+ billPrice);
-        }
+    public static void main(String [] args){
+
+       /* String input = "00:00:02,111-112-113\n"
+                 + "01:05:00,101-102-103\n"
+                 + "01:05:01,901-202-203\n"+
+                "01:05:01,641-451-453";
+        String timeDate="00:01:07,400-234-090\n" +
+                "00:05:01,701-080-080\n" +
+                "00:05:00,400-234-090";
+        System.out.println(solution(input));*/
+
+    }
+
+
+
 
         private static int solution(String timeDate) {
 
@@ -40,6 +46,7 @@ public class Test {
                 else if(callDuration == maximumDuration){
                     maximumCalls.add(phoneCalls[1]);
                 }
+                System.out.println(lines);
             }
             promoNumber = maximumCalls.first();
             //System.out.println(phoneDuration);
@@ -56,15 +63,17 @@ public class Test {
                 }
 
             }
+
             return billCharged;
         }
 
-        private static int getSeconds(String phoneCall) {
-            int seconds=0;
-            String[] time = phoneCall.split(":");
-            seconds=Integer.parseInt(time[0])*3600+Integer.parseInt(time[1])*60 +Integer.parseInt(time[2]);
-            return seconds;
-        }
+    private static int getSeconds(String phoneCall) {
+        int seconds=0;
+        String[] time = phoneCall.split(":");
+        seconds=Integer.parseInt(time[0])*3600+Integer.parseInt(time[1])*60 +Integer.parseInt(time[2]);
+        return seconds;
     }
+}
+
 
 
