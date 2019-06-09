@@ -46,7 +46,7 @@ public class ParmeshworAmazon {
 
         r = new ArrayList<>();
 
-        r.add(1);
+        r.add(0);
         r.add(9);
         r.add(1);
         lot.add(r);
@@ -66,6 +66,14 @@ public class ParmeshworAmazon {
 
        // findMin(lot,0,0,0,visited);
         //return min;
+
+        for(int i=0;i<lot.size();i++){
+            for(int j=0;j<lot.get(0).size();j++){
+                if(lot.get(i).get(j)==0){
+                    visited[i][j]= true;
+                }
+            }
+        }
 
         Queue<Dist> q = new LinkedList();
         Dist d = new Dist(0,0,0);
