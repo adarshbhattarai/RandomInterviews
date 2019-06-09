@@ -1,14 +1,15 @@
 package com.adarsh;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by adarshbhattarai on 2/9/19.
  */
 public class ParmeshworAmazon {
 
+
+
+    static int min=Integer.MAX_VALUE;
     public static void main(String[] args) {
 
         // 0 1 0 0 1 1 0 1
@@ -28,33 +29,90 @@ public class ParmeshworAmazon {
         }
 
        // Arrays.stream(state).forEach(System.out::println);
+        int[][] a = new int [][]{{1,0,0},{1,0,0},{1,9,1}};
+        List<List<Integer>>  lot = new ArrayList<>();
+        List<Integer> r = new ArrayList<>();
+        r.add(1);
+        r.add(0);
+        r.add(0);
+        lot.add(r);
 
-        demoLitionRobot();
+        r = new ArrayList<>();
+
+        r.add(1);
+        r.add(0);
+        r.add(0);
+        lot.add(r);
+
+        r = new ArrayList<>();
+
+        r.add(1);
+        r.add(9);
+        r.add(1);
+        lot.add(r);
+
+
+
+        removeObstacles(3,3,lot);
         System.out.println(min);
     }
-    static int min=Integer.MAX_VALUE;
-    static  void demoLitionRobot(){
 
-        int[][] a = new int [][]{{1,1,1,1},{0,1,1,1},{0,1,0,1},{1,1,9,1},{0,0,1,1}};
-        findMin(a,0,0,0,new HashSet());
+    private  static int removeObstacles(int numRows, int numColumns, List<List<Integer>> lot){
+
+
+        boolean[][] visited = new boolean[numRows][numColumns];
+
+
+       // findMin(lot,0,0,0,visited);
+        //return min;
+
+        Queue<Integer[]> q = new LinkedList();
+        q.add(new Integer[]{0,0});
+
+        int currMin = 0;
+        while(!q.isEmpty()){
+
+            Integer[] out  =  q.poll();
+
+            int a = out[0];
+            int b=out[1];
+
+            if(a<0||a>=lot.size()||b<0||b>=lot.get(0).size()) {
+                break;
+            }
+            if(lot.get(a).get(b)==0){
+                continue;
+            }
+            if(lot.get(a).get(b)==9){
+                return min;
+            }
+            q.add(new Integer[]{a+1,b});
+            q.add(new Integer[]{a,b+1});
+            q.add(new Integer[]{a-1,b});
+            q.add(new Integer[]{a,b-1});
+            currMin++;
+
+        }
+
+        return currMin+1;
     }
+    private static void findMin(List<List<Integer>> a , int x,int y,int curMin,boolean[][] visited ){
 
-    private static void findMin(int[][] a , int x,int y,int curMin,Set<String> visited ){
-
-        if(x<0||x>=a.length||y<0||y>=a[0].length) return;
-        if(a[x][y]==0) return;
-        if(a[x][y]==9){
+        if(x<0||x>=a.size()||y<0||y>=a.get(0).size()) return;
+        if(a.get(x).get(y)==0) return;
+        if(a.get(x).get(y)==9){
 
             min=Math.min(min,curMin);
             return;
         }
-        if(visited.contains(x+"-"+y)) return;
-        visited.add(x+"-"+y);
+
+        if(visited[x][y]) return;
+        visited[x][y] = true;
         findMin(a,x,y+1,curMin+1,visited);
         findMin(a,x+1,y,curMin+1,visited);
         findMin(a,x-1,y,curMin+1,visited);
         findMin(a,x,y-1,curMin+1,visited);
-        visited.remove(x+"-"+y);
+        visited[x][y] = false;
 
     }
 
