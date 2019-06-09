@@ -53,7 +53,8 @@ public class ParmeshworAmazon {
 
 
 
-        removeObstacles(3,3,lot);
+        int mins = removeObstacles(3,3,lot);
+        System.out.println(mins);
         System.out.println(min);
     }
 
@@ -66,35 +67,52 @@ public class ParmeshworAmazon {
        // findMin(lot,0,0,0,visited);
         //return min;
 
-        Queue<Integer[]> q = new LinkedList();
-        q.add(new Integer[]{0,0});
+        Queue<Dist> q = new LinkedList();
+        Dist d = new Dist(0,0,0);
+        q.add(d);
 
-        int currMin = 0;
+        visited[0][0]=true;
+
         while(!q.isEmpty()){
 
-            Integer[] out  =  q.poll();
+            Dist dis = q.poll();
+            if(lot.get(dis.row).get(dis.col)==9){
+                return dis.dist;
+            }
 
-            int a = out[0];
-            int b=out[1];
+            if(dis.row -1 >=0 &&
+            !visited[dis.row-1][dis.col]
+            ){
 
-            if(a<0||a>=lot.size()||b<0||b>=lot.get(0).size()) {
-                break;
+                q.offer(new Dist(dis.row-1,dis.col,dis.dist+1));
+                visited[dis.row-1][dis.col] = true;
             }
-            if(lot.get(a).get(b)==0){
-                continue;
+
+            if(dis.row +1 < lot.size() &&
+                    !visited[dis.row+1][dis.col]
+            ){
+
+                q.offer(new Dist(dis.row+1,dis.col,dis.dist+1));
+                visited[dis.row+1][dis.col] = true;
             }
-            if(lot.get(a).get(b)==9){
-                return min;
+            if(dis.col -1 >=0 &&
+                    !visited[dis.row][dis.col-1]
+            ){
+
+                q.offer(new Dist(dis.row,dis.col-1,dis.dist+1));
+                visited[dis.row][dis.col-1] = true;
             }
-            q.add(new Integer[]{a+1,b});
-            q.add(new Integer[]{a,b+1});
-            q.add(new Integer[]{a-1,b});
-            q.add(new Integer[]{a,b-1});
-            currMin++;
+            if(dis.col +1 < lot.get(0).size() &&
+                    !visited[dis.row][dis.col+1]
+            ){
+
+                q.offer(new Dist(dis.row,dis.col+1,dis.dist+1));
+                visited[dis.row][dis.col+1] = true;
+            }
 
         }
-
-        return currMin+1;
+        return -1;
+       // return currMin;
     }
     private static void findMin(List<List<Integer>> a , int x,int y,int curMin,boolean[][] visited ){
 
@@ -116,5 +134,15 @@ public class ParmeshworAmazon {
 
     }
 
+    static class Dist {
+        int row;
+        int col;
+        int dist;
+        Dist(int row,int col, int dist){
+            this.row = row;
+            this.col = col;
+            this.dist = dist;
+        }
+    }
 
 }
